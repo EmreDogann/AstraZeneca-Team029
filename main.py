@@ -18,7 +18,7 @@ class HomeScreen(Widget):
         self.directoryManager = DirectoryManager(self.path)
         if (operationType == "Directory"):
             self.directoryManager.getDirContents()
-            self.filesDropped()
+            self.onFileFolderButtonPressed()
         elif (operationType == "Deep"):
             self.words = self.directoryManager.getFileContents()
 
