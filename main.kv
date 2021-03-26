@@ -1,8 +1,93 @@
+#:import hex kivy.utils.get_color_from_hex
+
 <HomeScreen>
 
     GridLayout:
-        cols: 1
+        cols: 3
+        rows: 4
         size: root.width, root.height
         padding: 50
-        Button:
-            text: "Hello from main.kv"
+        # spacing: 25
+        
+        Label:
+            font_size: '50sp'
+            font_name: "./Fonts/OpenSans-Light.ttf"
+            text: "File/Folder"
+            color: hex('#b8b8b8')
+        VSeparator
+        Label:
+            font_size: '50sp'
+            font_name: "./Fonts/OpenSans-Light.ttf"
+            text: "File Content"
+            color: hex('#b8b8b8')
+        Image:
+            source: 'drag_drop.png'
+            color: hex('#c9c9c9')
+            size_hint_y: None
+            # pos_hint: 100, 100
+            height: 150
+        VSeparator
+        Image:
+            source: 'Drag_Drop.png'
+            color: hex('#c9c9c9')
+            size_hint_y: None
+            # pos: 0, 100
+            height: 150
+        Label:
+            font_size: '20sp'
+            font_name: "./Fonts/OpenSans-Regular.ttf"
+            text: "Drag and Drop a Folder..."
+            color: hex('#b8b8b8')
+        VSeparator
+        Label:
+            font_size: '20sp'
+            font_name: "./Fonts/OpenSans-Regular.ttf"
+            text: "Drag and Drop a .txt file..."
+            color: hex('#b8b8b8')
+        AnchorLayout:
+            RoundedButton:
+                font_size: '30sp'
+                font_name: "./Fonts/OpenSans-Light.ttf"
+                text: "Choose"
+                valign: 'middle'
+                halign: 'left'
+                size_hint_x: None
+                size_hint_y: None
+                width: 150
+                height: 50
+                on_press: print("Button1 Pressed")
+        VSeparator
+        AnchorLayout:
+            RoundedButton:
+                font_size: '30sp'
+                font_name: "./Fonts/OpenSans-Light.ttf"
+                text: "Choose"
+                valign: 'middle'
+                halign: 'left'
+                size_hint_x: None
+                size_hint_y: None
+                width: 150
+                height: 50
+                on_press: print("Button2 Pressed")
+
+<RoundedButton@Button>
+    background_color: (0,0,0,0)
+    canvas.before:
+        Color:
+            rgba: hex('#8f8f8f') if self.state=='normal' else hex('#b8b8b8')  # visual feedback of press
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [25]
+
+<Separator@Widget>:
+    canvas:
+        Color:
+            rgba: hex('#c9c9c9')
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+<VSeparator@Separator>:
+    size_hint_x: None
+    width: dp(2)
