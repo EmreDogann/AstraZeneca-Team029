@@ -49,9 +49,6 @@ class MainApp(App):
         
         self.homeScreen = HomeScreen()
 
-        # self.homeScreen.fileImport("Directory")
-        # mainScreen.fileRename("Deep")
-        # mainScreen.changeFileContents("Deep")
         return self.homeScreen
 
     def _on_file_drop(self, window, file_path):
