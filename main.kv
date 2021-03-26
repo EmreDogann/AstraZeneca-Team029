@@ -28,7 +28,6 @@
             source: 'drag_drop.png'
             color: hex('#c9c9c9') 
             size_hint_y: None
-            # pos_hint: 100, 100
             height: 150
         VSeparator
         Image:
@@ -36,7 +35,6 @@
             source: 'drag_drop.png'
             color: hex('#c9c9c9')
             size_hint_y: None
-            # pos: 0, 100
             height: 150
         Label:
             font_size: '20sp'
@@ -60,7 +58,6 @@
                 size_hint_y: None
                 width: 150
                 height: 50
-                # on_press: print("Button1 Pressed")
                 on_release: root.onFolderButtonPressed() 
         VSeparator
         AnchorLayout:
@@ -75,6 +72,13 @@
                 width: 150
                 height: 50
                 on_release: root.onFileButtonPressed()
+
+<SpellCheckerScreen>
+    GridLayout:
+        cols: 1
+        rows: 1
+        Button:
+            text: "Test"    
 
 <RoundedButton@Button>
     background_color: (0,0,0,0)
