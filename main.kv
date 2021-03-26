@@ -2,6 +2,9 @@
 
 <HomeScreen>
 
+    fileImg1: fileId1
+    fileImg2: fileId2
+
     GridLayout:
         cols: 3
         rows: 4
@@ -21,14 +24,16 @@
             text: "File Content"
             color: hex('#b8b8b8')
         Image:
+            id: fileId1
             source: 'drag_drop.png'
-            color: hex('#c9c9c9')
+            color: hex('#c9c9c9') 
             size_hint_y: None
             # pos_hint: 100, 100
             height: 150
         VSeparator
         Image:
-            source: 'Drag_Drop.png'
+            id: fileId2
+            source: 'drag_drop.png'
             color: hex('#c9c9c9')
             size_hint_y: None
             # pos: 0, 100
