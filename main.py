@@ -2,7 +2,6 @@ from DirectoryManager import DirectoryManager
 from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.core.window import Window
-from kivy.graphics.svg import Svg
 Window.clearcolor = (1, 1, 1, 1)
 
 class HomeScreen(Widget):
