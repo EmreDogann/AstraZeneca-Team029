@@ -1,13 +1,14 @@
 from DirectoryManager import DirectoryManager
 from FileSpellChecker import FileSpellChecker
+from DialogueWindow import DialogueWindow
 from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.core.window import Window
 from kivy.properties import ObjectProperty
 from kivy.animation import Animation
 from kivy.utils import get_color_from_hex as hex
-import tkinter
-from tkinter import filedialog
+# import tkinter
+# from tkinter import filedialog
 import os
 Window.clearcolor = (1,1,1,1)
 
@@ -19,9 +20,11 @@ class HomeScreen(Widget):
     
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.dialogueWindow = DialogueWindow()
+
         Window.bind(mouse_pos = self.on_mouse_pos)
-        self.tkinterRoot = tkinter.Tk()
-        self.tkinterRoot.withdraw()
+        # self.tkinterRoot = tkinter.Tk()
+        # self.tkinterRoot.withdraw()
         self.path = ''
 
 
@@ -40,14 +43,16 @@ class HomeScreen(Widget):
             self.directoryManager.createNewFile(self.words)
 
     def onFolderButtonPressed(self):
-        self.path = filedialog.askdirectory(parent=self.tkinterRoot, initialdir="./", title='Please select a directory')
+        # self.path = filedialog.askdirectory(parent=self.tkinterRoot, initialdir="./", title='Please select a directory')
+        self.dialogueWindow.openDialogue('Directory')
         if (self.path != ""):
             self.fileImport("Directory")
         # self.fileSpellChecker = FileSpellChecker(self.directoryManager.dirContents)
         # print(self.fileSpellChecker.spellCheck())
 
     def onFileButtonPressed(self):
-        self.path = filedialog.askopenfile(parent=self.tkinterRoot, initialdir="./", title='Please select a file')
+        # self.path = filedialog.askopenfile(parent=self.tkinterRoot, initialdir="./", title='Please select a file')
+        self.dialogueWindow.openDialogue('File')
         if (self.path != None):
             self.fileImport("File")
 
