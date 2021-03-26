@@ -3,6 +3,8 @@ from FileSpellChecker import FileSpellChecker
 from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.core.window import Window
+from kivy.properties import ObjectProperty
+from kivy.utils import get_color_from_hex as hex
 import tkinter
 from tkinter import filedialog
 Window.clearcolor = (1,1,1,1)
@@ -10,12 +12,15 @@ Window.clearcolor = (1,1,1,1)
 # path =r"C:\Users\Emre\Downloads\GitHub\testDir\test.txt" 
 
 class HomeScreen(Widget):
+    fileImg1 = ObjectProperty(None)
+    fileImg2 = ObjectProperty(None)
+    
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        Window.bind(mouse_pos = self.on_mouse_pos)
         self.tkinterRoot = tkinter.Tk()
         self.tkinterRoot.withdraw()
         self.path = ''
-        # Window.bind(mouse_pos = lambda w, p: setattr(self.label, 'text', str(p)))
 
 
     def fileImport(self, operationType):
@@ -41,12 +46,18 @@ class HomeScreen(Widget):
 
     def onFileButtonPressed(self):
         self.path = filedialog.askopenfile(parent=self.tkinterRoot, initialdir="./", title='Please select a file')
-        if (self.path != ""):
+        if (self.path != None):
             self.fileImport("File")
-    
-    # def on_touch_up(self, touch):
-    #     print("Mouse UP X", touch.spos[0])
-    #     # self.btn.opacity = 1
+
+    def on_mouse_pos(self, window, pos):
+        if ((window.mouse_pos[0]/window.size[0]) < 0.5):
+            print("Dict")
+            self.fileImg1.color = hex("#a6a6a6")
+            self.fileImg2.color = hex("#c9c9c9")
+        else:
+            print("File")
+            self.fileImg1.color = hex("#c9c9c9")
+            self.fileImg2.color = hex("#a6a6a6")
         
 
 class FileNameScreen(Widget):
@@ -63,8 +74,7 @@ class MainApp(App):
 
     def _on_file_drop(self, window, file_path):
         self.homeScreen.path = file_path.decode("utf-8")
-        mouse_x = window.mouse_pos[0]/window.size[0]
-        if (mouse_x < 0.5):
+        if ((window.mouse_pos[0]/window.size[0]) < 0.5):
             self.homeScreen.fileImport("Directory")
         else:
             self.homeScreen.fileImport("File")
