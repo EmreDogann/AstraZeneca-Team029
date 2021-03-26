@@ -18,7 +18,6 @@ class HomeScreen(Widget):
         self.directoryManager = DirectoryManager(self.path)
         if (operationType == "Directory"):
             self.directoryManager.getDirContents()
-            self.onFileFolderButtonPressed()
         elif (operationType == "Deep"):
             self.words = self.directoryManager.getFileContents()
 
@@ -30,6 +29,7 @@ class HomeScreen(Widget):
             self.directoryManager.createNewFile(self.words)
 
     def onFileFolderButtonPressed(self):
+        self.fileImport("Directory")
         self.fileSpellChecker = FileSpellChecker(self.directoryManager.dirContents)
         print(self.fileSpellChecker.spellCheck()) 
         
