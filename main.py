@@ -10,13 +10,18 @@ class MainScreen(Widget):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-    def FileRename(self):
-        self.directoryManager = DirectoryManager("C:/Users/Emre/Downloads/GitHub")
-        if (self.type == "DirectoryRename"):
+    def fileImport(self, operationType):
+        self.directoryManager = DirectoryManager(r"C:\Users\Emre\Downloads\GitHub\testDir\abuizgai.txt")
+        if (operationType == "Directory"):
             self.directoryManager.getDirContents()
-        else:
+        elif (operationType == "Deep"):
             self.directoryManager.getFileContents()
-        
+    
+    def fileRename(self, operationType):
+        if (operationType == "DirectoryRename"):
+            self.directoryManager.renameDir(self.directoryManager.dirContents[0], "abuizgai.txt")
+        elif (operationType == "Deep"):
+            self.directoryManager.getFileContents()
 
 class FileNameScreen(Widget):
     def __init__(self, **kwargs):
@@ -28,7 +33,8 @@ class FileNameScreen(Widget):
 class MainApp(App):
     def build(self):
         mainScreen = MainScreen()
-        mainScreen.FileRename()
+        mainScreen.fileImport("Deep")
+        # mainScreen.fileRename("Deep")
         return mainScreen
 
 
