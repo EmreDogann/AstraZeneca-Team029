@@ -31,7 +31,7 @@ class HomeScreen(Widget):
     def onFileFolderButtonPressed(self):
         self.fileImport("Directory")
         self.fileSpellChecker = FileSpellChecker(self.directoryManager.dirContents)
-        print(self.fileSpellChecker.spellCheck()) 
+        print(self.fileSpellChecker.spellCheck())
         
 
 class FileNameScreen(Widget):
@@ -55,11 +55,7 @@ class MainApp(App):
         return self.homeScreen
 
     def _on_file_drop(self, window, file_path):
-        print(file_path)
-        if(platform.system() == "Darwin"):
-            self.homeScreen.path = file_path.decode("utf-8")
-        elif(platform.system() == "Windows"):
-           self.homeScreen.path = file_path.decode("utf-16") 
+        self.homeScreen.path = file_path.decode("utf-8")
         return
 
 
