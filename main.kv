@@ -12,7 +12,7 @@
         Label:
             font_size: '50sp'
             font_name: "./Fonts/OpenSans-Light.ttf"
-            text: "File/Folder"
+            text: "Folder"
             color: hex('#b8b8b8')
         VSeparator
         Label:
@@ -56,7 +56,7 @@
                 width: 150
                 height: 50
                 # on_press: print("Button1 Pressed")
-                on_press: root.onFileFolderButtonPressed() 
+                on_release: root.onFolderButtonPressed() 
         VSeparator
         AnchorLayout:
             RoundedButton:
@@ -69,7 +69,7 @@
                 size_hint_y: None
                 width: 150
                 height: 50
-                on_press: print("Button2 Pressed")
+                on_release: root.onFileButtonPressed()
 
 <RoundedButton@Button>
     background_color: (0,0,0,0)
