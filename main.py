@@ -51,11 +51,9 @@ class HomeScreen(Widget):
 
     def on_mouse_pos(self, window, pos):
         if ((window.mouse_pos[0]/window.size[0]) < 0.5):
-            print("Dict")
             self.fileImg1.color = hex("#a6a6a6")
             self.fileImg2.color = hex("#c9c9c9")
         else:
-            print("File")
             self.fileImg1.color = hex("#c9c9c9")
             self.fileImg2.color = hex("#a6a6a6")
         
