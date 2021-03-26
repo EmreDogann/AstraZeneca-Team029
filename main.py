@@ -24,14 +24,12 @@ class HomeScreen(Widget):
         self.tkinterRoot.withdraw()
         self.path = ''
 
-
     def fileImport(self, operationType):
         self.directoryManager = DirectoryManager(self.path)
         if (operationType == "Directory"):
             self.directoryManager.getDirContents()
         elif (operationType == "File"):
             self.words = self.directoryManager.getFileContents()
-
     
     def fileRename(self, operationType):
         if (operationType == "Directory"):
@@ -47,7 +45,7 @@ class HomeScreen(Widget):
         # print(self.fileSpellChecker.spellCheck())
 
     def onFileButtonPressed(self):
-        self.path = filedialog.askopenfile(parent=self.tkinterRoot, initialdir="./", title='Please select a file')
+        self.path = filedialog.askopenfile(parent=self.tkinterRoot, initialdir="./", title='Please select a file').name
         if (self.path != None):
             self.fileImport("File")
 
