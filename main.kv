@@ -75,6 +75,7 @@
 
 <SpellCheckerScreen>
 
+    folderName: folderName
     misspelledWords: misspelledWords
     suggestions: suggestions
 
@@ -102,8 +103,8 @@
                         anchor_y: 'center'
                         padding: 30
                         Label:
-                            text: "testDir"
-                            font_size: '30sp'
+                            id: folderName
+                            font_size: '20sp'
                             font_name: "./Fonts/OpenSans-LightItalic.ttf"
                             size_hint: (None, None)
                             size: self.texture_size
@@ -145,7 +146,6 @@
                 RecycleView:
                     id: misspelledWords
                     viewclass: 'CustomListLabel'
-                    # data: [{'text': str(x)} for x in range(10)]
                     RecycleBoxLayout:
                         multiselect: True
                         default_size: None, dp(56)
@@ -156,22 +156,13 @@
                 RecycleView:
                     id: suggestions
                     viewclass: 'ListButton'
-                    # data: [{'text': str(x)} for x in range(10)]
-                    size_hint_x: .4
+                    size_hint_x: 0.4
                     RecycleBoxLayout:
                         default_size: None, dp(56)
                         default_size_hint: 1, None
                         size_hint_y: None
                         height: self.minimum_height
                         orientation: 'vertical'
-            # GridLayout:
-            #     cols: 1
-            #     rows: 5
-            #     Label:
-            #         text: "File Name 2"
-            #         font_size: '20sp'
-            #         font_name: "./Fonts/OpenSans-Light.ttf"
-            #         color: hex('#b8b8b8')
 
 <Manager>:
     id: screen_manager

@@ -9,13 +9,11 @@ from kivy.properties import ObjectProperty
 from kivy.animation import Animation
 from kivy.uix.recycleview import RecycleView
 from kivy.utils import get_color_from_hex as hex
-# import tkinter
-# from tkinter import filedialog
 from kivy.uix.screenmanager import ScreenManager, Screen, SlideTransition
 import os
 Window.clearcolor = (1,1,1,1)
 
-# path =r"C:\Users\Emre\Downloads\GitHub\testDir\test.txt" 
+# Global store.
 directoryManager = DirectoryManager()
 
 class HomeScreen(Screen):
@@ -24,11 +22,14 @@ class HomeScreen(Screen):
     
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        # Initialize TKinter
         self.dialogueWindow = DialogueWindow()
 
+        # Bind mouse movement event - Used for the on-hover effects.
         Window.bind(mouse_pos = self.on_mouse_pos)
         self.path = ''
 
+    # Used to retreive directory/file contents once the path has been supplied.
     def fileImport(self, operationType):
         directoryManager.path = self.path
         if (operationType == "Directory"):
@@ -36,14 +37,8 @@ class HomeScreen(Screen):
 
         elif (operationType == "File"):
             self.words = directoryManager.getFileContents()
-    
-    def fileRename(self, operationType):
-        if (operationType == "Directory"):
-            directoryManager.renameDir(directoryManager.dirContents[0], "test2.txt")
 
-        elif (operationType == "File"):
-            directoryManager.createNewFile(self.words)
-
+    # Called when folder is manually selected
     def onFolderButtonPressed(self):
         self.path = self.dialogueWindow.openDialogue('Directory')
         if (self.path != ""):
@@ -63,10 +58,12 @@ class HomeScreen(Screen):
             spellChecker = self.manager.get_screen('spellCheckerScreen')
             spellChecker.misspelledWords.data = misspelledWords
             spellChecker.suggestions.data = suggestions
+            spellChecker.folderName.text = os.path.splitext(directoryManager.path)[0]
 
             self.manager.current = "spellCheckerScreen"
             self.manager.transition.direction = "left"
 
+    # Called when file is manually selected
     def onFileButtonPressed(self):
         self.path = self.dialogueWindow.openDialogue('File')
 
@@ -77,6 +74,7 @@ class HomeScreen(Screen):
             self.manager.current = "spellCheckerScreen"
             self.manager.transition.direction = "left"
 
+    # on_hover effects
     def on_mouse_pos(self, window, pos):
         if ((window.mouse_pos[0]/window.size[0]) < 0.5):
             self.fileImg1.color = hex("#a6a6a6")
@@ -86,42 +84,49 @@ class HomeScreen(Screen):
             self.fileImg1.color = hex("#c9c9c9")
             self.fileImg2.color = hex("#a6a6a6")
 
+# New screen for listing word corrections
 class SpellCheckerScreen(Screen):
+    folderName = ObjectProperty(None)
     misspelledWords = ObjectProperty(None)
     suggestions = ObjectProperty(None)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
+# Base manager class which handles switching between pages.
 class Manager(ScreenManager):
     homeScreen = ObjectProperty(None)
     spellCheckerScreen = ObjectProperty(None)
 
+# Custom widget with an on_press event (correctSpelling) which will correct the spelling for the folder selected.
 class ListButton(Button):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
     def correctSpelling(self):
         index = int(self.text.split(': ')[0])
-        print(index)
-        print(directoryManager.suggestions)
         directoryManager.renameDir(directoryManager.suggestions[index][0] + directoryManager.suggestions[index][1], directoryManager.suggestions[index][2][0] + directoryManager.suggestions[index][1])
+
+        
 
 class MainApp(App):
 
     def build(self):
         # Binding the drop file
         Window.bind(on_dropfile=self._on_file_drop)
+        # Detects when mouse has entered window and focuses window as a result
         Window.bind(on_cursor_enter=lambda *__: Window.show())
 
+        # Setup manager class.
         self.manager = Manager(transition=SlideTransition())
 
         return self.manager
 
+    # Called when file drop detected.
     def _on_file_drop(self, window, file_path):
-        if (self.manager.current == "homeScreen"):
             homeScreen = self.manager.get_screen('homeScreen')
             homeScreen.path = file_path.decode("utf-8")
+            
             if ((window.mouse_pos[0]/window.size[0]) < 0.5):
                 if (os.path.isdir(homeScreen.path)):
                     homeScreen.fileImport("Directory")

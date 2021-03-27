@@ -25,7 +25,7 @@ class FileSpellChecker:
             # without extension
             fileNameWithoutExt = os.path.splitext(fileName)[0]
             extension = os.path.splitext(fileName)[1] 
-            print("NAME: " + str(fileName))
+            # print("NAME: " + str(fileName))
             wordArray = self.cleanUp(fileNameWithoutExt)
 
             # if it is only one word
@@ -98,17 +98,17 @@ class FileSpellChecker:
 # cd ~/Downloads/GitHub/AstraZenica-Team029
 # cd ~/Downloads/GitHub/testDir
 # TESTING
-names = []
-path = './testDir'
-for item in os.listdir(path):
-    if(item[0] != '.'):
-        names.append(item)
+# names = []
+# path = './testDir'
+# for item in os.listdir(path):
+#     if(item[0] != '.'):
+#         names.append(item)
 
-checker = FileSpellChecker(names)
+# checker = FileSpellChecker(names)
 
-for item in checker.spellCheck():
-    print(item)
-    print()
+# for item in checker.spellCheck():
+#     print(item)
+#     print()
 
 # #
 # splitWord = ['']
