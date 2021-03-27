@@ -126,10 +126,27 @@ class MainApp(App):
     def _on_file_drop(self, window, file_path):
             homeScreen = self.manager.get_screen('homeScreen')
             homeScreen.path = file_path.decode("utf-8")
-            
+
             if ((window.mouse_pos[0]/window.size[0]) < 0.5):
                 if (os.path.isdir(homeScreen.path)):
                     homeScreen.fileImport("Directory")
+                    self.fileSpellChecker = FileSpellChecker(directoryManager.dirContents)
+            
+                    result = self.fileSpellChecker.spellCheck()
+
+                    misspelledWords = []
+                    suggestions = []
+                    for index, x in enumerate(result):
+                        misspelledWords.append({'text': x[0]+x[1]})
+                        suggestions.append({'text': str(index) + ": " + x[2][0]})
+
+                    directoryManager.suggestions = result
+
+                    spellChecker = self.manager.get_screen('spellCheckerScreen')
+                    spellChecker.misspelledWords.data = misspelledWords
+                    spellChecker.suggestions.data = suggestions
+                    spellChecker.folderName.text = os.path.splitext(directoryManager.path)[0]
+                    
                     self.manager.current = "spellCheckerScreen"
                     self.manager.transition.direction = "left"
 
