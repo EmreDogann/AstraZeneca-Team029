@@ -74,13 +74,124 @@
                 on_release: root.onFileButtonPressed()
 
 <SpellCheckerScreen>
-    GridLayout:
-        cols: 1
-        rows: 1
-        Button:
-            text: "Test"    
+
+    misspelledWords: misspelledWords
+    suggestions: suggestions
+
+    BoxLayout:
+        BoxLayout:
+            orientation: 'vertical'
+            BoxLayout:
+                orientation: 'vertical'
+                size_hint_y: 0.3
+                AnchorLayout:
+                    anchor_x: 'left'
+                    anchor_y: 'top'
+                    padding: 30
+                    Label:
+                        text: "File Name Correction"
+                        font_size: '30sp'
+                        font_name: "./Fonts/OpenSans-Light.ttf"
+                        size_hint: (None, None)
+                        size: self.texture_size
+                        color: hex('#b8b8b8')
+                BoxLayout:
+                    orientation: 'horizontal'
+                    AnchorLayout:
+                        anchor_x: 'left'
+                        anchor_y: 'center'
+                        padding: 30
+                        Label:
+                            text: "testDir"
+                            font_size: '30sp'
+                            font_name: "./Fonts/OpenSans-LightItalic.ttf"
+                            size_hint: (None, None)
+                            size: self.texture_size
+                            color: hex('#b8b8b8')
+                    # BoxLayout:
+                    #     orientation: 'horizontal'
+                    #     size_hint_x: 0.5
+                    #     spacing: 10
+                    #     AnchorLayout:
+                    #         anchor_x: 'right'
+                    #         anchor_y: 'center'
+                    #         padding: [20, 0]
+                    #         RoundedButtonSmall:
+                    #             font_size: '17sp'
+                    #             font_name: "./Fonts/OpenSans-Regular.ttf"
+                    #             text: "Edit Original"
+                    #             valign: 'middle'
+                    #             halign: 'left'
+                    #             size_hint_x: None
+                    #             size_hint_y: None
+                    #             width: 125
+                    #             height: 40
+                    #     AnchorLayout:
+                    #         anchor_x: 'right'
+                    #         anchor_y: 'center'
+                    #         padding: [20, 0]
+                    #         RoundedButtonSmall:
+                    #             font_size: '17sp'
+                    #             font_name: "./Fonts/OpenSans-Regular.ttf"
+                    #             text: "Save As Copy"
+                    #             valign: 'middle'
+                    #             halign: 'left'
+                    #             size_hint_x: None
+                    #             size_hint_y: None
+                    #             width: 125
+                    #             height: 40
+            BoxLayout:
+                orientation: 'horizontal'
+                RecycleView:
+                    id: misspelledWords
+                    viewclass: 'CustomListLabel'
+                    # data: [{'text': str(x)} for x in range(10)]
+                    RecycleBoxLayout:
+                        multiselect: True
+                        default_size: None, dp(56)
+                        default_size_hint: 1, None
+                        size_hint_y: None
+                        height: self.minimum_height
+                        orientation: 'vertical'
+                RecycleView:
+                    id: suggestions
+                    viewclass: 'ListButton'
+                    # data: [{'text': str(x)} for x in range(10)]
+                    size_hint_x: .4
+                    RecycleBoxLayout:
+                        default_size: None, dp(56)
+                        default_size_hint: 1, None
+                        size_hint_y: None
+                        height: self.minimum_height
+                        orientation: 'vertical'
+            # GridLayout:
+            #     cols: 1
+            #     rows: 5
+            #     Label:
+            #         text: "File Name 2"
+            #         font_size: '20sp'
+            #         font_name: "./Fonts/OpenSans-Light.ttf"
+            #         color: hex('#b8b8b8')
+
+<Manager>:
+    id: screen_manager
+
+    homeScreen: homeScreen
+    spellCheckerScreen: spellCheckerScreen
+
+    HomeScreen:
+        id: homeScreen
+        name: "homeScreen"
+        manager: screen_manager
+
+    SpellCheckerScreen:
+        id: spellCheckerScreen
+        name: "spellCheckerScreen"
+        manager: screen_manager
 
 <RoundedButton@Button>
+    font_size: '20sp'
+    font_name: "./Fonts/OpenSans-Regular.ttf"
     background_color: (0,0,0,0)
     canvas.before:
         Color:
@@ -89,6 +200,47 @@
             pos: self.pos
             size: self.size
             radius: [25]
+
+<RoundedButtonSmall@Button>
+    font_size: '20sp'
+    font_name: "./Fonts/OpenSans-Regular.ttf"
+    background_color: (0,0,0,0)
+    canvas.before:
+        Color:
+            rgba: hex('#8f8f8f') if self.state=='normal' else hex('#b8b8b8')  # visual feedback of press
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [20]
+
+<CustomListLabel@Label>:
+    font_size: '20sp'
+    font_name: "./Fonts/OpenSans-Regular.ttf"
+    halign: 'left'
+    valign: 'top'
+    text_size: self.size[0]-40, self.size[1]-30
+    size_hint_x: None
+    background_color: (0,0,0,0)
+    canvas.before:
+        Color:
+            rgba: hex('#a3a3a3')
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size[0]-5, self.size[1]-5
+            radius: [10]
+
+<ListButton@Button>
+    font_size: '20sp'
+    font_name: "./Fonts/OpenSans-Regular.ttf"
+    background_color: (0,0,0,0)
+    on_press: root.correctSpelling()
+    canvas.before:
+        Color:
+            rgba: self.background_color if self.state=='normal' else hex('#b8b8b8')  # visual feedback of press
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size[0]-5, self.size[1]-5
+            radius: [10]
 
 <Separator@Widget>:
     canvas:
