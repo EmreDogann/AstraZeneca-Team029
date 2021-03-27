@@ -4,8 +4,12 @@ class DirectoryManager:
     path = ""
     dirContents = []
     newLineIndies = set()
+    suggestions = []
 
-    def __init__(self, path):
+    def __init__(self):
+        pass
+    
+    def setPath(self, path):
         self.path = path
         
     def getDirContents(self):

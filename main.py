@@ -4,7 +4,6 @@ from DialogueWindow import DialogueWindow
 from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.uix.button import Button
-from kivy.graphics import Canvas, Color
 from kivy.core.window import Window
 from kivy.properties import ObjectProperty
 from kivy.animation import Animation
@@ -17,6 +16,7 @@ import os
 Window.clearcolor = (1,1,1,1)
 
 # path =r"C:\Users\Emre\Downloads\GitHub\testDir\test.txt" 
+directoryManager = DirectoryManager()
 
 class HomeScreen(Screen):
     fileImg1 = ObjectProperty(None)
@@ -30,36 +30,39 @@ class HomeScreen(Screen):
         self.path = ''
 
     def fileImport(self, operationType):
-        self.directoryManager = DirectoryManager(self.path)
+        directoryManager.path = self.path
         if (operationType == "Directory"):
-            self.directoryManager.getDirContents()
+            directoryManager.getDirContents()
 
         elif (operationType == "File"):
-            self.words = self.directoryManager.getFileContents()
+            self.words = directoryManager.getFileContents()
     
     def fileRename(self, operationType):
         if (operationType == "Directory"):
-            self.directoryManager.renameDir(self.directoryManager.dirContents[0], "test2.txt")
+            directoryManager.renameDir(directoryManager.dirContents[0], "test2.txt")
 
         elif (operationType == "File"):
-            self.directoryManager.createNewFile(self.words)
+            directoryManager.createNewFile(self.words)
 
     def onFolderButtonPressed(self):
         self.path = self.dialogueWindow.openDialogue('Directory')
         if (self.path != ""):
             self.fileImport("Directory")
-            self.fileSpellChecker = FileSpellChecker(self.directoryManager.dirContents)
+            self.fileSpellChecker = FileSpellChecker(directoryManager.dirContents)
             
-            spellChecker = self.manager.get_screen('spellCheckerScreen')
+            result = self.fileSpellChecker.spellCheck()
+
             misspelledWords = []
             suggestions = []
-            for x in self.fileSpellChecker.spellCheck():
+            for index, x in enumerate(result):
                 misspelledWords.append({'text': x[0]+x[1]})
-                suggestions.append({'text': x[2][0]})
-            print(suggestions)
+                suggestions.append({'text': str(index) + ": " + x[2][0]})
+
+            directoryManager.suggestions = result
+
+            spellChecker = self.manager.get_screen('spellCheckerScreen')
             spellChecker.misspelledWords.data = misspelledWords
             spellChecker.suggestions.data = suggestions
-
 
             self.manager.current = "spellCheckerScreen"
             self.manager.transition.direction = "left"
@@ -99,9 +102,10 @@ class ListButton(Button):
         super().__init__(**kwargs)
 
     def correctSpelling(self):
-        self.background_color = hex('#65d656')
-        # with self.canvas:
-        #     Color(rgba=(101/255, 214/255, 86/255, 1))
+        index = int(self.text.split(': ')[0])
+        print(index)
+        print(directoryManager.suggestions)
+        directoryManager.renameDir(directoryManager.suggestions[index][0] + directoryManager.suggestions[index][1], directoryManager.suggestions[index][2][0] + directoryManager.suggestions[index][1])
 
 class MainApp(App):
 

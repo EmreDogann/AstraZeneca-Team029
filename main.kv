@@ -236,7 +236,7 @@
     on_press: root.correctSpelling()
     canvas.before:
         Color:
-            rgba: self.background_color if self.state=='normal' else hex('#b8b8b8')  # visual feedback of press
+            rgba: hex('#8f8f8f') if self.state=='normal' else hex('#b8b8b8')  # visual feedback of press
         RoundedRectangle:
             pos: self.pos
             size: self.size[0]-5, self.size[1]-5
