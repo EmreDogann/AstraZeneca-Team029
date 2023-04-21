@@ -41,14 +41,3 @@ python main.py
 ```
 
 Can drag and drop directories on the left hand side or choose it using a tkinter file browser window. It should show you the mispelt one's with corrections allowing you to rename them with one click.
-
-# TODO
-
-- Fix formatting/styling for second page
-- Bulk spell checker for the content of files.
-  - Interface is there for text files however functionality needs to be expanded.
-- Having an option to traverse sub directories  
-- multiple suggestions can be provided
-  - `FileSpellChecker` is returning multiple suggestions however only one is being used for now.
--  While they are in the process of renaming the files, it would also give them the option to embedd meta-data into the file to help them relocate it later; it would also have spell checking for the metadata.
-- Using an offline AI Powered spell checker to increase performance and provide better suggestion than `pyspellchecker`
